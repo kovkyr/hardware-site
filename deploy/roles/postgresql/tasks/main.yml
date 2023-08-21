@@ -8,20 +8,29 @@
     - python-psycopg2
     state: present
 
+- name: Find postgresql versions
+  find:
+    path: /etc/postgresql
+    recurse: no
+    file_type: directory
+  register: postgresql_versions
+
 - name: Allow listening from all addresses
   lineinfile:
-    path: /etc/postgresql/9.5/main/postgresql.conf
+    path: /etc/postgresql/{{ item }}/main/postgresql.conf
     state: present
     regexp: "^(.*)listen_addresses(.*)$"
     line: "listen_addresses = '*'          # what IP address(es) to listen on;"
+  with_items: "{{ postgresql_versions.files|map(attribute='path')|map('basename')|list }}"
   notify: Restart postgresql
 
 - name: Allow to connect from all addresses
   lineinfile:
-    path: /etc/postgresql/9.5/main/pg_hba.conf
+    path: /etc/postgresql/{{ item }}/main/pg_hba.conf
     state: present
     regexp: "^(.*)host(.*)all(.*)all(.*)127.0.0.1/32(.*)md5(.*)$"
     line: "host    all             all             0.0.0.0/0            md5"
+  with_items: "{{ postgresql_versions.files|map(attribute='path')|map('basename')|list }}"
   notify: Restart postgresql
 
 - name: Ensure database is created
