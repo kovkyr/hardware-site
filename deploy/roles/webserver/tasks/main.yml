@@ -31,9 +31,18 @@
     src: "../../../../src/"
     dest: "/var/www/webserver-tmp/"
 
+- name: Check if webserver directory exists
+  stat: path=/var/www/webserver
+  register: webserver_directory_exists
+
 - name: Remove webserver directory content
-  shell:
-    cmd: "rm -rf /var/www/webserver/*"
+  shell: "rm -rf /var/www/webserver/*"
+  when: webserver_directory_exists.stat.exists == True
+
+- name: Creates webserver if not exists
+  file:
+    path: /var/www/webserver
+    state: directory
 
 - name: Copy webserver-tmp to webserver directory
   copy:
@@ -45,3 +54,18 @@
   file:
     path: /var/www/webserver-tmp
     state: absent
+
+- name: Set owner www-data and group www-data for webserver directory
+  shell: chown -R www-data:www-data /var/www/webserver
+
+- name: Set 755 permissions for webserver directory files
+  shell: find /var/www/webserver -type d -exec chmod 755 {} \;
+
+- name: Set 644 permissions for webserver directory dirs
+  shell: find /var/www/webserver -type f -exec chmod 644 {} \;
+
+- name: Create database scheme
+  shell: PGPASSWORD={{dbpassword}} psql -h 127.0.0.1 -U {{dbuser}} -d {{dbname}} -a -f /var/www/webserver/sql/create-database-scheme.sql
+
+- name: Create database data
+  shell: PGPASSWORD={{dbpassword}} psql -h 127.0.0.1 -U app -d app -a -f /var/www/webserver/sql/create-database-data.sql
