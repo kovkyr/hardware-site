@@ -1,0 +1,78 @@
+<div class="container">
+	<div class="alert alert-success" ng-show="isActionSuccess">
+		<a class="close" ng-click="isActionSuccess = false" aria-label="close">&times;</a>
+		<div ng-bind="messageOfActionSuccess"></div>
+	</div>
+
+	<div class="alert alert-danger" ng-show="isActionError">
+		<a class="close" ng-click="isActionError = false" aria-label="close">&times;</a>
+		<div ng-bind="messageOfActionError"></div>
+	</div>
+
+	<div class="row" ng-show="isView">
+		<div class="col-sm-12">
+			<button class="btn btn-primary" ng-click="Add()">Добавить</button>
+		</div>
+		<hr>
+	</div>
+	<hr>
+
+	<h3 ng-show="isView">Учетные записи</h3>
+
+	<div class="row" ng-show="isView">
+		<table class="table">
+			<thead>
+				<tr>
+					<th class="text-center">Учетная запись</th>
+					<th class="text-center"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="u in users track by u.id">
+					<td class="text-center">{{u.user}}</td>
+					<td class="text-center">
+						<button class="btn btn-warning" ng-click="Edit(u)">Редактирование</button>
+						<button class="btn btn-danger" ng-click="Delete(u)">Удалить</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<form name="form">
+		<div class="row" ng-show="isForm">
+			<div class="col-sm-offset-4 col-sm-4 form-group" ng-class="{ 'has-success': form.user.$valid, 'has-error': form.user.$invalid }">
+				<label for="user">Учетная запись</label>
+				<input id="user" class="form-control" type="text" name="user" required ng-model="user.user">
+			</div>
+			<div class="col-sm-offset-4 col-sm-4 form-group" ng-class="{ 'has-success': form.password.$valid, 'has-error': form.password.$invalid }">
+				<label for="password">Пароль</label>
+				<input id="password" class="form-control" type="password" name="password" required ng-model="user.password">
+			</div>
+			<div class="col-sm-offset-4 col-sm-4 form-group" ng-class="{ 'has-success': form.password_repeat.$valid, 'has-error': form.password_repeat.$invalid }">
+				<label for="password_repeat">Повтор пароля</label>
+				<input id="password_repeat" class="form-control" type="password" name="password_repeat" required ng-model="user.password_repeat">
+			</div>
+		</div>
+
+		<hr>
+
+		<div class="row" ng-if="isEdit">
+			<div class="col-sm-offset-4 col-sm-2">
+				<button class="btn btn-primary" ng-click="Save()">Сохранить</button>
+			</div>
+			<div class="col-sm-2 text-right">
+				<button class="btn btn-default" ng-click="Cancel()">Отмена</button>
+			</div>
+		</div>
+
+		<div class="row" ng-if="isAdd">
+			<div class="col-sm-offset-4 col-sm-2">
+				<button class="btn btn-primary" ng-click="Create()">Сохранить</button>
+			</div>
+			<div class="col-sm-2 text-right">
+				<button class="btn btn-default" ng-click="Cancel()">Отмена</button>
+			</div>
+		</div>
+	</form>
+</div>

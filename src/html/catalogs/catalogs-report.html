@@ -1,0 +1,32 @@
+<div class="container">
+	<div class="alert alert-success" ng-show="isActionSuccess">
+		<a class="close" ng-click="isActionSuccess = false" aria-label="close">&times;</a>
+		<div ng-bind="messageOfActionSuccess"></div>
+	</div>
+
+	<div class="alert alert-danger" ng-show="isActionError">
+		<a class="close" ng-click="isActionError = false" aria-label="close">&times;</a>
+		<div ng-bind="messageOfActionError"></div>
+	</div>
+
+	<hr>
+
+	<h3>Отчет</h3>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th class="text-center">Уникальный номер</th>
+				<th class="text-center" ng-repeat="cn in characteristics">{{cn.name}} (значения)</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="r in report">
+				<td class="text-center">{{hardwares_map[r.hardware_id].unique_number}}</td>
+				<td class="text-center" ng-repeat="cv in characteristics">
+					{{report_map[r.hardware_id][cv.name]}}
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

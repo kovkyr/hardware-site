@@ -1,0 +1,70 @@
+<div class="container">
+	<div class="alert alert-success" ng-show="isActionSuccess">
+		<a class="close" ng-click="isActionSuccess = false" aria-label="close">&times;</a>
+		<div ng-bind="messageOfActionSuccess"></div>
+	</div>
+
+	<div class="alert alert-danger" ng-show="isActionError">
+		<a class="close" ng-click="isActionError = false" aria-label="close">&times;</a>
+		<div ng-bind="messageOfActionError"></div>
+	</div>
+
+	<div class="row" ng-show="isView">
+		<div class="col-sm-12">
+			<button class="btn btn-primary" ng-click="Add()">Добавить</button>
+		</div>
+		<hr>
+	</div>
+	<hr>
+
+	<h3 ng-show="isView">Характеристики</h3>
+
+	<div class="row" ng-show="isView">
+		<table class="table">
+			<thead>
+				<tr>
+					<th class="text-center">Характеристика</th>
+					<th class="text-center"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="c in characteristics track by c.id">
+					<td class="text-center">{{c.name}}</td>
+					<td class="text-center">
+						<button class="btn btn-warning" ng-click="Edit(c)">Редактирование</button>
+						<button class="btn btn-danger" ng-click="Delete(c)">Удалить</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<form name="form">
+		<div class="row" ng-show="isForm">
+			<div class="col-sm-12 form-group" ng-class="{ 'has-success': form.characteristic.$valid, 'has-error': form.characteristic.$invalid }">
+				<label for="name">Характеристика</label>
+				<input id="name" class="form-control" type="text" name="name" required ng-model="characteristic.name">
+			</div>
+		</div>
+
+		<hr>
+
+		<div class="row" ng-if="isEdit">
+			<div class="col-sm-6">
+				<button class="btn btn-primary" ng-click="Save()">Сохранить</button>
+			</div>
+			<div class="col-sm-6">
+				<button class="btn btn-default" ng-click="Cancel()">Отмена</button>
+			</div>
+		</div>
+
+		<div class="row" ng-if="isAdd">
+			<div class="col-sm-6">
+				<button class="btn btn-primary" ng-click="Create()">Сохранить</button>
+			</div>
+			<div class="col-sm-6">
+				<button class="btn btn-default" ng-click="Cancel()">Отмена</button>
+			</div>
+		</div>
+	</form>
+</div>

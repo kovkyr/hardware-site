@@ -1,0 +1,12 @@
+---
+- name: Deploy server
+  hosts: all
+  become: yes
+  become_method: sudo
+  roles:
+   - update
+   - utility
+   - nginx
+   - php
+   - postgresql
+   - webserver

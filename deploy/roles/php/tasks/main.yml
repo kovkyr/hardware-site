@@ -1,0 +1,18 @@
+---
+- name: Install PHP
+  apt:
+    name:
+     - php
+     - php-cli
+     - php-common
+     - php-json
+     - php-opcache
+     - php-mbstring
+     - php-mcrypt
+     - php-zip
+     - php-fpm
+     - php-sqlite3
+     - php-pgsql
+     - php-mysql
+     - php-odbc
+    state: present

@@ -1,0 +1,47 @@
+---
+- name: Set sendfile to off to prevent illegal characters in js
+  lineinfile:
+    path: /etc/nginx/nginx.conf
+    state: present
+    regexp: "^(.*)sendfile(.*)$"
+    line: "	sendfile off;"
+
+- name: Remove default nginx configuration
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+
+- name: Copy webserver config to sites-available
+  template: src=webserver.conf dest=/etc/nginx/sites-available/webserver
+
+- name: Remove webserver link from sites-enabled
+  file:
+    path: /etc/nginx/sites-enabled/webserver
+    state: absent
+
+- name: Add webserver link to sites-enabled
+  file:
+    src: /etc/nginx/sites-available/webserver
+    dest: /etc/nginx/sites-enabled/webserver
+    state: link
+  notify: Restart nginx
+
+- name: Copy source files to webserver-tmp directory
+  copy:
+    src: "../../../../src/"
+    dest: "/var/www/webserver-tmp/"
+
+- name: Remove webserver directory content
+  shell:
+    cmd: "rm -rf /var/www/webserver/*"
+
+- name: Copy webserver-tmp to webserver directory
+  copy:
+    src: "/var/www/webserver-tmp/"
+    dest: "/var/www/webserver/"
+    remote_src: yes
+
+- name: Remove webserver-tmp directory
+  file:
+    path: /var/www/webserver-tmp
+    state: absent

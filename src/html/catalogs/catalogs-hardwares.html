@@ -1,0 +1,136 @@
+<div class="container">
+	<div class="alert alert-success" ng-show="isActionSuccess">
+		<a class="close" ng-click="isActionSuccess = false" aria-label="close">&times;</a>
+		<div ng-bind="messageOfActionSuccess"></div>
+	</div>
+
+	<div class="alert alert-danger" ng-show="isActionError">
+		<a class="close" ng-click="isActionError = false" aria-label="close">&times;</a>
+		<div ng-bind="messageOfActionError"></div>
+	</div>
+
+	<div class="row" ng-show="isView">
+		<div class="col-sm-12">
+			<button class="btn btn-primary" ng-click="Add()">Добавить</button>
+		</div>
+		<hr>
+	</div>
+	<hr>
+
+	<h3 ng-show="isView">Оборудование</h3>
+
+	<div class="row" ng-show="isView">
+		<table class="table">
+			<thead>
+				<tr>
+					<th class="text-center">Уникальный номер</th>
+					<th class="text-center"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="h in hardwares track by h.id">
+					<td class="text-center">{{h.unique_number}}</td>
+					<td class="text-center">
+						<button class="btn btn-warning" ng-click="Edit(h)">Редактирование</button>
+						<button class="btn btn-danger" ng-click="Delete(h)">Удалить</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<form name="form">
+		<div class="row" ng-show="isForm">
+			<div class="col-sm-12 form-group" ng-class="{ 'has-success': form.unique_number.$valid, 'has-error': form.unique_number.$invalid }">
+				Уникальный номер: {{ hardware.unique_number }}
+			</div>
+		</div>
+
+		<hr>
+
+		<div class="row" ng-show="isForm">
+			<div class="col-sm-12">
+				<button class="btn btn-primary" ng-click="AddCharacteristic()">Добавить характеристику</button>
+			</div>
+			<hr>
+		</div>
+
+		<div class="row" ng-show="isForm && is_hardware_has_any_characteristics_map.hasOwnProperty(hardware.id)">
+			<table class="table">
+				<thead>
+					<tr>
+						<th class="text-center">Характеристика</th>
+						<th class="text-center">Значение характеристики</th>
+						<th class="text-center"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="hc in hardwares_characteristics | filter: { hardware_id: hardware.id }  track by hc.id">
+						<td class="text-center">{{characteristics_map[hc.characteristic_id].name}}</td>
+						<td class="text-center">{{hc.value}}</td>
+						<td class="text-center">
+							<button class="btn btn-warning" ng-click="EditCharacteristic(hc)">Редактирование</button>
+							<button class="btn btn-danger" ng-click="DeleteCharacteristic(hc)">Удалить</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<hr>
+
+		<div class="row" ng-if="isForm">
+			<div class="col-sm-offset-4 col-sm-2">
+				<button class="btn btn-primary" ng-click="Save()">Сохранить</button>
+			</div>
+			<div class="col-sm-2 text-right">
+				<button class="btn btn-default" ng-click="Cancel()">Отмена</button>
+			</div>
+		</div>
+	</form>
+
+	<form name="form2">
+		<div class="row" ng-show="isFormForCharacteristic">
+			<div class="col-sm-12 form-group" ng-class="{ 'has-success': form2.unique_number.$valid, 'has-error': form2.unique_number.$invalid }">
+				Уникальный номер: {{ hardware.unique_number }}
+			</div>
+		</div>
+
+		<div class="row" ng-show="isFormForCharacteristic">
+			<div class="col-sm-12 form-group" ng-class="{ 'has-success': form2.characteristic_id.$valid, 'has-error': form2.characteristic_id.$invalid }">
+				<label for="characteristic_id">Характеристика</label>
+				<select class="form-control" id="characteristic_id" name="characteristic_id" required ng-model="hardware_characteristic.characteristic_id">
+					<option value="{{c.id}}" ng-selected="hardware_characteristic.characteristic_id == c.id" ng-repeat="c in characteristics">
+						{{ characteristics_map[c.id].name }}
+					</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="row" ng-show="isFormForCharacteristic">
+			<div class="col-sm-12 form-group" ng-class="{ 'has-success': form2.value.$valid, 'has-error': form2.value.$invalid }">
+				<label for="value">Значение характеристики</label>
+				<input id="value" class="form-control" type="text" name="value" ng-model="hardware_characteristic.value">
+			</div>
+		</div>
+
+
+		<div class="row" ng-if="isAddCharacteristic">
+			<div class="col-sm-offset-4 col-sm-2">
+				<button class="btn btn-primary" ng-click="SaveNewCharacteristic()">Сохранить</button>
+			</div>
+			<div class="col-sm-2 text-right">
+				<button class="btn btn-default" ng-click="CancelCharacteristic()">Отмена</button>
+			</div>
+		</div>
+
+		<div class="row" ng-if="isEditCharacteristic">
+			<div class="col-sm-offset-4 col-sm-2">
+				<button class="btn btn-primary" ng-click="SaveCharacteristic()">Сохранить</button>
+			</div>
+			<div class="col-sm-2 text-right">
+				<button class="btn btn-default" ng-click="CancelCharacteristic()">Отмена</button>
+			</div>
+		</div>
+	</form>
+</div>

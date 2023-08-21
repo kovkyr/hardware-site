@@ -1,0 +1,34 @@
+<div class="jumbotron text-center">
+	<h1>Вход</h1>
+	<p>Введите свой логин и пароль для входа в систему</p>
+</div>
+
+<hr>
+
+<div class="container">
+	<form name="signInForm">
+		<div class="row">
+			<div class="col-sm-offset-4 col-sm-4 form-group">
+				<label for="user">Учетная запись</label>
+				<input class="form-control" type="text" id="user" placeholder="" required ng-model="signInData.user">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-offset-4 col-sm-4 form-group">
+				<label for="password">Пароль</label>
+				<input class="form-control" type="password" id="password" placeholder="" ng-model="signInData.password">
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-offset-4 col-sm-4">
+				<button type="submit" class="btn btn-primary" ng-disabled="signInForm.$invalid" ng-click="doSignIn(signInData)">Войти</button>
+			</div>
+		</div>
+		<div class="row" ng-show="isSignInError">
+			<div class="col-sm-offset-4 col-sm-4">
+				<span class="text-danger" ng-bind="signInErrorMessage"></span>
+			</div>
+		</div>
+	</form>
+</div>

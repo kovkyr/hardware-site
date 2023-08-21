@@ -1,0 +1,8 @@
+---
+- name: Install utility
+  apt:
+    name:
+     - mc
+     - git
+     - graphviz
+    state: present

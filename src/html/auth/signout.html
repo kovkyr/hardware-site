@@ -1,0 +1,22 @@
+<div class="jumbotron text-center">
+	<h1>Выход</h1>
+	<p>Нажмите кнопку выход если хотите выйти из системы</p>
+</div>
+
+<hr>
+
+<div class="container">
+	<form name="signoutForm">
+		<div class="row">
+			<div class="col-sm-offset-4 col-sm-4">
+				<span class="help-block" ng-show="isSignOutError">Ошибка выхода</span>
+				<button type="submit" class="btn btn-primary" ng-disabled="signoutForm.$invalid" ng-click="doSignOut()">Выйти</button>
+			</div>
+		</div>
+		<div class="row" ng-show="isSignOutError">
+			<div class="col-sm-offset-4 col-sm-4">
+				<span class="text-danger" ng-bind="signOutErrorMessage"></span>
+			</div>
+		</div>
+	</form>
+</div>
