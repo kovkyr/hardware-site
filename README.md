@@ -1,64 +1,45 @@
 # hardware-site
 
-Учетная система для инвентаризации оборудования.
+Hardware site
 
-## Вариант 1: Установка сервера разработки (на примере Ubuntu 16.04)
+* Default user: admin
+* Default password: 123456
 
-### Подготовка к установке
+## How to deploy server in Docker container
 
-- Перейти в корневую директорию проекта.
-- В файле deploy/group_vars/all задать пароль на базу данных PostgreSQL.
-- В файле deploy/roles/webserver/src/php/api/database-manager.php задать такой же пароль как и файле deploy/group_vars/all.
-
-### Установить программы разработчика
-
-- Установить VirtualBox
-- Установить Vagrant
-
-### Запуск сервера разработки в виртуальной машине
-
-- Перейти в корневую директорию проекта.
-- Выполнить комманду.
-
+* Run docker services:
 ```
-vagrant up
+docker-compose up -d
 ```
 
-- Первый запуск займет продолжительное время и будут установлены все необходимые для работы пакеты, а также будет выполнена их настройка согласно конфигурации ansible.
-
-### Создать схему базы данных в виртуальной машине
-
-- Перейти в корневую директорию проекта.
-- Выполнить комманды (ввести пароль, заданный ранее в deploy/group_vars/all).
-
+* Stop docker services:
 ```
-vagrant ssh
-psql -h 127.0.0.1 -U app -d app -a -f /var/www/webserver/sql/01-create-database-scheme.sql
-psql -h 127.0.0.1 -U app -d app -a -f /var/www/webserver/sql/02-create-database-data.sql
+docker-compose down
 ```
 
-### Готово
+Go to http://localhost:3000/
 
-- Веб-сервер будет запущен на порту 3000.
-- База данных будет доступна на порту 3001.
-- Учетная запись и пароль по умолчанию от веб интерфейса admin с паролем 123456 (можно поменять после входа).
-- Для остановки сервера разработки ввести комманду `vagrant halt`.
-- Для повторного запуска остановленного ранее сервера разработки ввести комманду `vagrant up`.
-Для удаления сервера разработки ввести комманду `vagrant destroy`.
+## How to deploy server in Ubuntu 16.04
 
-## Вариант 2: Установка сервера на реальную машину (на примере Ubuntu 16.04)
+* Change `ansible_user` in `deploy/hosts.yml` file to user with sudo permissions:
+```
+ansible_user: su
+```
 
-### Подготовка к установке
+* Update db name, user and password in `deploy/main.yml` file:
+```
+dbname: app
+dbuser: app
+dbpassword: 123456
+```
 
-- Перейти в корневую директорию проекта.
-- В файле deploy/group_vars/all задать пароль на базу данных PostgreSQL.
-- В файле deploy/roles/webserver/src/php/api/database-manager.php задать такой же пароль как и файле deploy/group_vars/all.
+* Update db name, user and password in `src/php/api/database-manager.php` file (should be the same as in `deploy/main.yml` file):
+```
+self::$instance = new PDO('pgsql:host=localhost;port=5432;dbname=app;user=app;password=123456');
+```
 
-### Настроить пакеты и установить приложение на сервер
 
-- Перейти в deploy директорию проекта.
-- Выполнить комманды.
-
+* Go to deploy directory and run commands:
 ```
 sudo apt-add-repository ppa:ansible/ansible
 sudo apt-get update
@@ -66,46 +47,43 @@ sudo apt-get install -y ansible
 sudo ansible-playbook -i hosts.yml main.yml
 ```
 
-### Создать схему базы данных
+Go to http://localhost/
 
-- Выполнить комманды (ввести пароль, заданный ранее в deploy/group_vars/all).
+### How to deploy server in Vagrant
 
+* Prepare server:
+    * Install VirtualBox
+    * Install Vagrant
+
+* Create/start server:
 ```
-psql -h 127.0.0.1 -U app -d app -a -f /var/www/webserver/sql/01-create-database-scheme.sql
-psql -h 127.0.0.1 -U app -d app -a -f /var/www/webserver/sql/02-create-database-data.sql
-```
-
-### Удалить скрипты создания базы данных с сервера
-
-- Выполнить комманду.
-
-```
-sudo rm -rf /var/www/webserver/sql
+vagrant up
 ```
 
-### Готово
-
-Веб-сервер будет запущен на порту по умолчанию (порт 80).
-База данных будет доступна на порту по умолчанию (порт 5432).
-Учетная запись и пароль по умолчанию от веб интерфейса admin с паролем 123456 (можно поменять после входа).
-
-## Примечание
-
-Для установки на удаленный сервер достаточно сконфигураровать файл hosts.yml и запустить установку с машины Linux на которой установлен ansible
-
+* Stop server:
 ```
-ansible-playbook -i hosts.yml main.yml
+vagrant halt
 ```
 
-Пример файла hosts.yml для удаленной установки:
+* Destroy server:
+```
+vagrant destroy
+```
 
+* Connect to existing server via ssh:
 ```
-all:
-  hosts:
-    server:
-      ansible_host: remote_pc
-      ansible_become_method: sudo
-      ansible_become: yes
-      ansible_user: remote_user
-      ansible_password: remote_user_password
+vagrant ssh
 ```
+
+* Disconect from ssh session:
+```
+Ctrl + D
+```
+
+* Change working directory:
+```
+cd /vagrant
+```
+
+Go to http://localhost:3000/
+

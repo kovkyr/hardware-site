@@ -68,4 +68,4 @@
   shell: PGPASSWORD={{dbpassword}} psql -h 127.0.0.1 -U {{dbuser}} -d {{dbname}} -a -f /var/www/webserver/sql/create-database-scheme.sql
 
 - name: Create database data
-  shell: PGPASSWORD={{dbpassword}} psql -h 127.0.0.1 -U app -d app -a -f /var/www/webserver/sql/create-database-data.sql
+  shell: PGPASSWORD={{dbpassword}} psql -h 127.0.0.1 -U {{dbuser}} -d {{dbname}} -a -f /var/www/webserver/sql/create-database-data.sql
