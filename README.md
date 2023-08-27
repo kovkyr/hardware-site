@@ -55,6 +55,18 @@ Go to http://localhost/
     * Install VirtualBox
     * Install Vagrant
 
+* Update db name, user and password in `deploy/main.yml` file:
+```
+dbname: app
+dbuser: app
+dbpassword: 123456
+```
+
+* Update db name, user and password in `src/php/api/database-manager.php` file (should be the same as in `deploy/main.yml` file):
+```
+self::$instance = new PDO('pgsql:host=localhost;port=5432;dbname=app;user=app;password=123456');
+```
+
 * Create/start server:
 ```
 vagrant up
