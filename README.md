@@ -33,8 +33,8 @@ vagrant up
 
 ```
 vagrant ssh
-psql -h 127.0.0.1 -U app -d app -a -f /var/www/webserver/sql/create-database-scheme.sql
-psql -h 127.0.0.1 -U app -d app -a -f /var/www/webserver/sql/create-database-data.sql
+psql -h 127.0.0.1 -U app -d app -a -f /var/www/webserver/sql/01-create-database-scheme.sql
+psql -h 127.0.0.1 -U app -d app -a -f /var/www/webserver/sql/02-create-database-data.sql
 ```
 
 ### Готово
@@ -71,8 +71,8 @@ sudo ansible-playbook -i hosts.yml main.yml
 - Выполнить комманды (ввести пароль, заданный ранее в deploy/group_vars/all).
 
 ```
-psql -h 127.0.0.1 -U app -d app -a -f /var/www/webserver/sql/create-database-scheme.sql
-psql -h 127.0.0.1 -U app -d app -a -f /var/www/webserver/sql/create-database-data.sql
+psql -h 127.0.0.1 -U app -d app -a -f /var/www/webserver/sql/01-create-database-scheme.sql
+psql -h 127.0.0.1 -U app -d app -a -f /var/www/webserver/sql/02-create-database-data.sql
 ```
 
 ### Удалить скрипты создания базы данных с сервера
