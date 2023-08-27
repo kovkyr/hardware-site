@@ -49,7 +49,7 @@ sudo ansible-playbook -i hosts.yml main.yml
 
 Go to http://localhost/
 
-### How to deploy server in Vagrant
+## How to deploy server in Vagrant
 
 * Prepare server:
     * Install VirtualBox
