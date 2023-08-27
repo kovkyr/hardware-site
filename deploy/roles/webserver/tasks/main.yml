@@ -65,7 +65,7 @@
   shell: find /var/www/webserver -type f -exec chmod 644 {} \;
 
 - name: Create database scheme
-  shell: PGPASSWORD={{dbpassword}} psql -h 127.0.0.1 -U {{dbuser}} -d {{dbname}} -a -f /var/www/webserver/sql/create-database-scheme.sql
+  shell: PGPASSWORD={{dbpassword}} psql -h 127.0.0.1 -U {{dbuser}} -d {{dbname}} -a -f /var/www/webserver/sql/01-create-database-scheme.sql
 
 - name: Create database data
-  shell: PGPASSWORD={{dbpassword}} psql -h 127.0.0.1 -U {{dbuser}} -d {{dbname}} -a -f /var/www/webserver/sql/create-database-data.sql
+  shell: PGPASSWORD={{dbpassword}} psql -h 127.0.0.1 -U {{dbuser}} -d {{dbname}} -a -f /var/www/webserver/sql/02-create-database-data.sql
