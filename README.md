@@ -19,7 +19,7 @@ docker-compose down
 
 Go to http://localhost:3000/
 
-## How to deploy server in Ubuntu 16.04
+## How to deploy server in Ubuntu 22.04
 
 * Change `ansible_user` in `deploy/hosts.yml` file to user with sudo permissions:
 ```

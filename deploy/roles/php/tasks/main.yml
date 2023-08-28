@@ -8,7 +8,6 @@
      - php-json
      - php-opcache
      - php-mbstring
-     - php-mcrypt
      - php-zip
      - php-fpm
      - php-sqlite3

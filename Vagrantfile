@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "ubuntu/xenial64"
+  config.vm.box = "ubuntu/jammy64"
   config.vm.network "forwarded_port", guest: 80, host: 3000
   config.vm.network "forwarded_port", guest: 5432, host: 3001, host_ip: "127.0.0.1"
   config.vm.synced_folder "src", "/var/www/webserver"
