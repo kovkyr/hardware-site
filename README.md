@@ -7,6 +7,13 @@ Hardware site
 
 ## How to deploy server in Docker container
 
+* Update postgresql database name, user and password in `.env` file:
+```
+DB_NAME=app
+DB_USER=app
+DB_PASSWORD=123456
+```
+
 * Run docker services:
 ```
 docker-compose up -d
