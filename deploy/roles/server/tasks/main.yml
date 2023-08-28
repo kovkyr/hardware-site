@@ -1,0 +1,18 @@
+---
+- name: Update system
+  include_tasks: 01_update_system.yml
+
+- name: Install utility
+  include_tasks: 02_install_utility.yml
+
+- name: Install nginx
+  include_tasks: 03_install_nginx.yml
+
+- name: Install php
+  include_tasks: 04_install_php.yml
+
+- name: Install postgresql
+  include_tasks: 05_install_postgresql.yml
+
+- name: Install webserver
+  include_tasks: 06_install_webserver.yml

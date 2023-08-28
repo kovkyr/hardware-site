@@ -4,12 +4,7 @@
   become: yes
   become_method: sudo
   roles:
-   - update
-   - utility
-   - nginx
-   - php
-   - postgresql
-   - webserver
+   - server
   vars:
     dbname: app
     dbuser: app
