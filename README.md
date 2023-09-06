@@ -5,7 +5,7 @@ Hardware site
 * Default user: admin
 * Default password: 123456
 
-## How to deploy server in Docker container
+## How to deploy server in Docker
 
 * Update postgresql database name, user and password in `.env` file:
 ```
@@ -14,14 +14,19 @@ DB_USER=app
 DB_PASSWORD=123456
 ```
 
-* Run docker services:
+* Create/start server:
 ```
-docker-compose up -d
+make docker-up
 ```
 
-* Stop docker services:
+* Stop server:
 ```
-docker-compose down
+make docker-halt
+```
+
+* Destroy server:
+```
+make docker-destroy
 ```
 
 Go to http://localhost:3000/
