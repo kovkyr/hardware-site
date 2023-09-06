@@ -24,15 +24,16 @@ services:
             - DB_NAME=${DB_NAME}
             - DB_USER=${DB_USER}
             - DB_PASSWORD=${DB_PASSWORD}
-            - DB_SERVICE_HOST=db
+            - DB_SERVICE_HOST=psql
         command: /bin/sh -c "envsubst '$$DB_SERVICE_HOST $$DB_NAME $$DB_USER $$DB_PASSWORD' < /var/www/html/public/php/api/database-manager.php.template > /var/www/html/public/php/api/database-manager.php; php-fpm -F"
-    db:
+    psql:
         image: postgres:10.1
         restart: always
         ports:
             - "5432:5432"
         volumes:
             - "./src/sql/:/docker-entrypoint-initdb.d/"
+            - "./data/postgresql-data:/var/lib/postgresql/data"
         environment:
             - POSTGRES_DB=${DB_NAME}
             - POSTGRES_USER=${DB_USER}
