@@ -1,3 +1,5 @@
+include .env
+
 help:
 	@echo ""
 	@echo "Usage: make COMMAND"
@@ -28,16 +30,16 @@ docker-destroy:
 	@rm -rf ./data
 
 psql-dump:
-	@docker compose exec -t psql pg_dumpall -c -U postgres > data/dumps/db.sql
+	@docker compose exec -t psql pg_dump $(DB_NAME) -c -U $(DB_USER) > data/dumps/db.sql
 
 psql-restore:
-	@cat data/dumps/db.sql | docker compose exec -T psql psql -U postgres
+	@docker compose exec -T psql psql $(DB_NAME) -U $(DB_USER) < data/dumps/db.sql
 
-enter-nginx-container:
-	@docker compose exec -it nginx /bin/sh
+shell-nginx:
+	@docker compose exec -it nginx /bin/bash
 
-enter-php-container:
-	@docker compose exec -it php /bin/sh
+shell-php:
+	@docker compose exec -it php /bin/bash
 
-enter-psql-container:
-	@docker compose exec -it psql /bin/sh
+shell-psql:
+	@docker compose exec -it psql /bin/bash
